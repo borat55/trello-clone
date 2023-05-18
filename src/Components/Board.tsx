@@ -4,9 +4,10 @@ import DraggableCard from "./DragabbleCard";
 import styled from "styled-components";
 import { ITodo, toDoState } from "../atoms";
 import { useSetRecoilState } from "recoil";
+import Removeboard from "./Deleteboard";
 
 const Wrapper = styled.div`
-  padding-top: 10px;
+  padding: 10px;
   background-color: ${(props) => props.theme.boardColor};
   border-radius: 5px;
   min-height: 200px;
@@ -36,8 +37,10 @@ const Area = styled.div<IAreaProps>`
 
 const Form = styled.form`
   width: 100%;
+  margin-top: 30px;
   input {
     width: 100%;
+    padding: 0;
   }
 `;
 
@@ -73,7 +76,15 @@ function Board({ toDos, boardId }: IBoardProps) {
   };
   return (
     <Wrapper>
-      <Title>{boardId}</Title>
+      <div
+        style={{
+          width: "13%",
+          position: "absolute",
+        }}
+      >
+        <Title>{boardId}</Title>
+        <Removeboard />
+      </div>
       <Form onSubmit={handleSubmit(onValid)}>
         <input
           {...register("toDo", { required: true })}
