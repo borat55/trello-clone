@@ -37,10 +37,11 @@ const Area = styled.div<IAreaProps>`
 
 const Form = styled.form`
   width: 100%;
-  margin-top: 30px;
+  margin-top: 10px;
   input {
     width: 100%;
     padding: 0;
+    outline: none;
   }
 `;
 
@@ -78,12 +79,11 @@ function Board({ toDos, boardId }: IBoardProps) {
     <Wrapper>
       <div
         style={{
-          width: "13%",
-          position: "absolute",
+          position: "relative",
         }}
       >
         <Title>{boardId}</Title>
-        <Removeboard />
+        <Removeboard boardId={boardId} />
       </div>
       <Form onSubmit={handleSubmit(onValid)}>
         <input

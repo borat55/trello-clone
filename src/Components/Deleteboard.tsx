@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { toDoState } from "../atoms";
+import { useRecoilState } from "recoil";
 
 const Remove = styled.button`
   border: 0;
@@ -11,8 +13,22 @@ const Remove = styled.button`
   cursor: pointer;
 `;
 
-const Removeboard = () => {
-  return <Remove>❌</Remove>;
+interface IBoardProps {
+  boardId: string;
+}
+
+const Removeboard = ({ boardId }: IBoardProps) => {
+  const [toDos, setToDos] = useRecoilState(toDoState);
+
+  const onClick = () => {
+    setToDos((prev) => {
+      const copiedBoard = { ...prev };
+      delete copiedBoard[boardId];
+      return copiedBoard;
+    });
+  };
+
+  return <Remove onClick={onClick}>❌</Remove>;
 };
 
 export default Removeboard;
