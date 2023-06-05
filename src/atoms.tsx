@@ -23,3 +23,12 @@ export const openModal = atom({
   key: "openModal",
   default: false,
 });
+
+export const boardTitle = atom({
+  key: "boardTitle",
+  default: "",
+});
+export const boardTitleModal = atom({
+  key: "boardTitleModal",
+  default: false,
+});

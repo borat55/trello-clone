@@ -13,7 +13,7 @@ const Remove = styled.button`
   cursor: pointer;
 `;
 
-interface IBoardProps {
+export interface IBoardProps {
   boardId: string;
 }
 
