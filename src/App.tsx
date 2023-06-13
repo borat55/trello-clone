@@ -5,6 +5,7 @@ import { toDoState, mouseOver, openModal, IToDoState } from "./atoms";
 import Board from "./Components/Board";
 import AddBoard from "./Components/AddBoard";
 import BoardTitle from "./Components/BoardTitle";
+import TodoModal from "./Components/ToDoModal";
 
 const Wrapper = styled.div`
   display: flex;
@@ -150,6 +151,7 @@ function App() {
         </AddBtnBox>
         <AddBoard />
         <BoardTitle />
+        <TodoModal />
         <Boards>
           {Object.keys(toDos).map((boardId) => (
             <Board boardId={boardId} key={boardId} toDos={toDos[boardId]} />

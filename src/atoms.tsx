@@ -32,3 +32,13 @@ export const boardTitleModal = atom({
   key: "boardTitleModal",
   default: false,
 });
+
+export const toDoModal = atom({
+  key: "toDoModal",
+  default: false,
+});
+
+export const editToDoModal = atom({
+  key: "editToDoModal",
+  default: {},
+});
