@@ -5,11 +5,14 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { toDoState, toDoModal, editToDoModal } from "../atoms";
 
 const CardContainer = styled.div`
-  height: 40px;
+  height: auto;
 `;
 
 const Card = styled.div<{ isDragging: boolean }>`
   /* position: absolute; */
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
   border-radius: 5px;
   margin-bottom: 5px;
   padding: 7px 7px;

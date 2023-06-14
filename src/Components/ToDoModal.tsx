@@ -8,7 +8,7 @@ const TodoModal = () => {
   const [todoModal, setToDoModal] = useRecoilState(toDoModal);
   const [editTodoModal, setEditToDoModal] = useRecoilState(editToDoModal);
   const [toDos, setToDos] = useRecoilState(toDoState);
-  console.log("editTodoModal outside", editTodoModal);
+
   const closeEditTodoModal = () => {
     setToDoModal(false);
   };
