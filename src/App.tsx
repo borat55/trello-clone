@@ -16,24 +16,23 @@ const Wrapper = styled.div`
   height: 100vh;
 `;
 
-const AddBtnBox = styled.div`
+const AddBtnBox = styled.div<{ openBoardModal: boolean; todos: IToDoState }>`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
   position: absolute;
-  background-color: black;
-`;
-
-const AddBoardBtn = styled.button<{
-  todos: IToDoState;
-  openBoardModal: boolean;
-}>`
-  position: relative;
   top: ${(props) =>
     Object.keys(props.todos).length === 0 && props.openBoardModal === false
-      ? "0px"
-      : "-380px"};
-  left: ${(props) =>
+      ? "45%"
+      : "50px"};
+  right: ${(props) =>
     Object.keys(props.todos).length === 0 && props.openBoardModal === false
-      ? "10px"
-      : "1020px"};
+      ? "43%"
+      : "100px"};
+`;
+
+const AddBoardBtn = styled.button`
   border: none;
   outline: none;
   background-color: navy;
@@ -49,18 +48,10 @@ const Msg = styled.h3<{
   todos: IToDoState;
   openBoardModal: boolean;
 }>`
+  text-align: center;
+  margin-top: 10px;
   visibility: hidden;
   visibility: ${(props) => (props.mouseover ? "hidden" : "visible")};
-  position: relative;
-  text-align: center;
-  top: ${(props) =>
-    Object.keys(props.todos).length === 0 && props.openBoardModal === false
-      ? "15px"
-      : "-365px"};
-  left: ${(props) =>
-    Object.keys(props.todos).length === 0 && props.openBoardModal === false
-      ? "-95px"
-      : "990px"};
   color: skyblue;
   width: ${(props) =>
     Object.keys(props.todos).length === 0 && props.openBoardModal === false
@@ -83,7 +74,6 @@ function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
   const [mouseover, setMouseover] = useRecoilState(mouseOver);
   const [openBoardModal, setOpenBoardModal] = useRecoilState(openModal);
-
   const onMouseEnter = () => {
     setMouseover(false);
   };
@@ -97,7 +87,6 @@ function App() {
   };
   const onDragEnd = (info: DropResult) => {
     const { destination, source } = info;
-    console.log(info);
 
     if (!destination) return;
     if (destination?.droppableId === source.droppableId) {
@@ -131,13 +120,11 @@ function App() {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Wrapper>
-        <AddBtnBox>
+        <AddBtnBox openBoardModal={openBoardModal} todos={toDos}>
           <AddBoardBtn
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             onClick={addBoardClick}
-            todos={toDos}
-            openBoardModal={openBoardModal}
           >
             +
           </AddBoardBtn>
