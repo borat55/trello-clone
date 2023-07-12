@@ -4,15 +4,9 @@ import React from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { toDoState, toDoModal, editToDoModal } from "../atoms";
 
-const CardContainer = styled.div`
+const CardContainer = styled.div<{ isDragging: boolean }>`
   height: auto;
-`;
-
-const Card = styled.div<{ isDragging: boolean }>`
-  /* position: absolute; */
-  display: flex;
-  /* flex-direction: column; */
-  align-items: center;
+  width: 180px;
   border-radius: 5px;
   margin-bottom: 5px;
   padding: 7px 7px;
@@ -20,15 +14,21 @@ const Card = styled.div<{ isDragging: boolean }>`
     props.isDragging ? "#74b9ff" : props.theme.cardColor};
   box-shadow: ${(props) =>
     props.isDragging ? "0px 2px 5px rgba(0,0,0,0.5)" : "none"};
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const Card = styled.div`
+  padding-right: 4px;
+  line-height: 19px;
 `;
 const EditToDoBtn = styled.button`
   outline: none;
   border: none;
   background-color: transparent;
   font-size: 17px;
-  position: relative;
-  top: -35px;
-  left: 128px;
+  padding: 1px 2px 1px 1px;
   cursor: pointer;
 `;
 const DeleteToDoBtn = styled.button`
@@ -36,9 +36,7 @@ const DeleteToDoBtn = styled.button`
   border: none;
   background-color: transparent;
   font-size: 13px;
-  position: relative;
-  top: -36px;
-  left: 120px;
+  padding: 1px 1px 1px 2px;
   cursor: pointer;
 `;
 
@@ -63,7 +61,6 @@ function DraggableCard({
     setEditToDoModal({ [boardId]: toDoId });
     setToDoModal(true);
   };
-  console.log(editTodoModal);
 
   const deleteToDoBtn = () => {
     setToDos((prev) => {
@@ -78,14 +75,16 @@ function DraggableCard({
     <Draggable draggableId={toDoId + ""} index={index}>
       {(provided, snapshot) => (
         <CardContainer
+          isDragging={snapshot.isDragging}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <Card isDragging={snapshot.isDragging}>{toDoText}</Card>
-
-          <EditToDoBtn onClick={editToDoBtn}>✂</EditToDoBtn>
-          <DeleteToDoBtn onClick={deleteToDoBtn}>❌</DeleteToDoBtn>
+          <Card>{toDoText}</Card>
+          <div style={{ display: "flex" }}>
+            <EditToDoBtn onClick={editToDoBtn}>✂</EditToDoBtn>
+            <DeleteToDoBtn onClick={deleteToDoBtn}>❌</DeleteToDoBtn>
+          </div>
         </CardContainer>
       )}
     </Draggable>

@@ -18,6 +18,7 @@ const Wrapper = styled.div`
 
 const AddBtnBox = styled.div`
   position: absolute;
+  background-color: black;
 `;
 
 const AddBoardBtn = styled.button<{
@@ -100,7 +101,6 @@ function App() {
 
     if (!destination) return;
     if (destination?.droppableId === source.droppableId) {
-      // same board movement
       setToDos((allBoards) => {
         const boardCopy = [...allBoards[source.droppableId]];
         const taskOjg = boardCopy[source.index];

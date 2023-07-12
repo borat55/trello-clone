@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 const Title = styled.div`
   text-align: center;
   font-weight: 600;
-  margin-bottom: 10px;
+
   font-size: 18px;
 `;
 
@@ -37,11 +37,11 @@ const Area = styled.div<IAreaProps>`
 `;
 
 const Form = styled.form`
-  width: 100%;
+  width: 95%;
   margin-top: 10px;
   input {
     width: 100%;
-    padding: 0;
+    padding: 2px;
     outline: none;
   }
 `;
@@ -90,9 +90,12 @@ function Board({ toDos, boardId }: IBoardProps) {
     <Wrapper>
       <div
         style={{
-          position: "relative",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
+        <div style={{ width: "40px", height: "14px" }}></div>
         <Title onClick={handleTitleClick}>{boardId}</Title>
         <Removeboard boardId={boardId} />
       </div>

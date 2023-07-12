@@ -5,24 +5,25 @@ import { ITodo } from "../atoms";
 
 const Remove = styled.button`
   border: 0;
-  position: absolute;
+  /* position: absolute;
   top: -4px;
-  left: 180px;
+  left: 180px; */
   border: none;
   background-color: transparent;
-  padding: 5px;
+  padding: 2px;
+
   cursor: pointer;
 `;
 
 const ResetBoard = styled.button`
   font-size: 16px;
   border: none;
-  position: absolute;
+  /* position: absolute;
   top: -7px;
-  left: 157px;
+  left: 157px; */
   border: none;
   background-color: transparent;
-  padding: 5px;
+  padding: 2px;
   cursor: pointer;
 `;
 
@@ -55,7 +56,7 @@ const Removeboard = ({ boardId }: IBoardProps) => {
   };
 
   return (
-    <div>
+    <div style={{ display: "flex", justifyContent: "end" }}>
       <ResetBoard onClick={resetClick}>🔄</ResetBoard>
       <Remove onClick={remoceClick}>❌</Remove>
     </div>
