@@ -34,7 +34,7 @@ export interface IBoardProps {
 const Removeboard = ({ boardId }: IBoardProps) => {
   const [toDos, setToDos] = useRecoilState(toDoState);
 
-  const remoceClick = () => {
+  const removeClick = () => {
     setToDos((prev) => {
       const copiedTodos = { ...prev };
       delete copiedTodos[boardId];
@@ -43,7 +43,6 @@ const Removeboard = ({ boardId }: IBoardProps) => {
   };
 
   const resetClick = () => {
-    console.log(toDos["오늘"]);
     setToDos((todos) => {
       const copied = { ...todos };
       const {
@@ -58,7 +57,7 @@ const Removeboard = ({ boardId }: IBoardProps) => {
   return (
     <div style={{ display: "flex", justifyContent: "end" }}>
       <ResetBoard onClick={resetClick}>🔄</ResetBoard>
-      <Remove onClick={remoceClick}>❌</Remove>
+      <Remove onClick={removeClick}>❌</Remove>
     </div>
   );
 };
