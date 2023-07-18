@@ -6,6 +6,7 @@ import Board from "./Components/Board";
 import AddBoard from "./Components/AddBoard";
 import BoardTitle from "./Components/BoardTitle";
 import TodoModal from "./Components/ToDoModal";
+import Trashcan from "./Components/TrashCan";
 
 const Wrapper = styled.div`
   display: flex;
@@ -87,8 +88,6 @@ function App() {
   };
   const onDragEnd = (info: DropResult) => {
     const { destination, source } = info;
-    console.log(info);
-    console.log(toDos);
     if (!destination) return;
     if (destination?.droppableId === source.droppableId) {
       setToDos((allBoards) => {
@@ -104,18 +103,26 @@ function App() {
       });
     }
     if (destination.droppableId !== source.droppableId) {
-      setToDos((allBoards) => {
-        const sourceBoard = [...allBoards[source.droppableId]];
-        const taskOjg = sourceBoard[source.index];
-        const destinationBoard = [...allBoards[destination.droppableId]];
-        sourceBoard.splice(source.index, 1);
-        destinationBoard.splice(destination?.index, 0, taskOjg);
-        return {
-          ...allBoards,
-          [source.droppableId]: sourceBoard,
-          [destination.droppableId]: destinationBoard,
-        };
-      });
+      if (destination.droppableId === "trashcan") {
+        setToDos((allBoards) => {
+          const sourceBoard = [...allBoards[source.droppableId]];
+          sourceBoard.splice(source.index, 1);
+          return { ...allBoards, [source.droppableId]: sourceBoard };
+        });
+      } else {
+        setToDos((allBoards) => {
+          const sourceBoard = [...allBoards[source.droppableId]];
+          const taskOjg = sourceBoard[source.index];
+          const destinationBoard = [...allBoards[destination.droppableId]];
+          sourceBoard.splice(source.index, 1);
+          destinationBoard.splice(destination?.index, 0, taskOjg);
+          return {
+            ...allBoards,
+            [source.droppableId]: sourceBoard,
+            [destination.droppableId]: destinationBoard,
+          };
+        });
+      }
     }
   };
   return (
@@ -145,6 +152,7 @@ function App() {
             <Board boardId={boardId} key={boardId} toDos={toDos[boardId]} />
           ))}
         </Boards>
+        <Trashcan />
       </Wrapper>
     </DragDropContext>
   );
