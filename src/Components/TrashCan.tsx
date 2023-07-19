@@ -21,10 +21,25 @@ const Trashcan = () => {
             {...provided.droppableProps}
             isDraggingOver={snapshot.isDraggingOver}
           >
-            <FontAwesomeIcon
-              icon={faTrash}
-              style={{ color: "white", fontSize: "50px" }}
-            />
+            {snapshot.isDraggingOver ? (
+              <FontAwesomeIcon
+                icon={faTrash}
+                style={{
+                  color: "navy",
+                  fontSize: "70px",
+                  transition: "all 0.5s",
+                }}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faTrash}
+                style={{
+                  color: "white",
+                  fontSize: "50px",
+                  transition: "all 0.5s",
+                }}
+              />
+            )}
           </TrashDiv>
         )}
       </Droppable>
