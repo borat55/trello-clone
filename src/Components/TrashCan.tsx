@@ -7,13 +7,19 @@ import {
   DroppableStateSnapshot,
 } from "react-beautiful-dnd";
 
+const TrashContainer = styled.div`
+  position: absolute;
+  bottom: 100px;
+  right: 130px;
+`;
+
 const TrashDiv = styled.div<{
   isDraggingOver: boolean;
 }>``;
 
 const Trashcan = () => {
   return (
-    <div>
+    <TrashContainer>
       <Droppable droppableId="trashcan">
         {(provided: DroppableProvided, snapshot: DroppableStateSnapshot) => (
           <TrashDiv
@@ -43,7 +49,7 @@ const Trashcan = () => {
           </TrashDiv>
         )}
       </Droppable>
-    </div>
+    </TrashContainer>
   );
 };
 
