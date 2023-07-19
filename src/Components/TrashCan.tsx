@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import {
   Droppable,
   DroppableProvided,
@@ -29,7 +29,7 @@ const Trashcan = () => {
           >
             {snapshot.isDraggingOver ? (
               <FontAwesomeIcon
-                icon={faTrash}
+                icon={faTrashCan}
                 style={{
                   color: "navy",
                   fontSize: "70px",
@@ -38,7 +38,7 @@ const Trashcan = () => {
               />
             ) : (
               <FontAwesomeIcon
-                icon={faTrash}
+                icon={faTrashCan}
                 style={{
                   color: "white",
                   fontSize: "50px",
