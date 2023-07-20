@@ -10,11 +10,14 @@ import Trashcan from "./Components/TrashCan";
 
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   max-width: 680px;
   margin: 0 auto;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  /* height: auto; */
+  min-height: 100vh;
+  /* padding: 30px 0 30px 0; */
 `;
 
 const AddBtnBox = styled.div<{ openBoardModal: boolean; todos: IToDoState }>`
