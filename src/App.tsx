@@ -15,9 +15,8 @@ const Wrapper = styled.div`
   margin: 0 auto;
   justify-content: center;
   align-items: center;
-  /* height: auto; */
+  margin: 20px auto;
   min-height: 100vh;
-  /* padding: 30px 0 30px 0; */
 `;
 
 const AddBtnBox = styled.div<{ openBoardModal: boolean; todos: IToDoState }>`
