@@ -8,7 +8,7 @@ import {
 } from "react-beautiful-dnd";
 
 const TrashContainer = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 100px;
   right: 130px;
 `;

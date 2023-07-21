@@ -24,7 +24,7 @@ const AddBtnBox = styled.div<{ openBoardModal: boolean; todos: IToDoState }>`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  position: absolute;
+  position: fixed;
   top: ${(props) =>
     Object.keys(props.todos).length === 0 && props.openBoardModal === false
       ? "45%"
