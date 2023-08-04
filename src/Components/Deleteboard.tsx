@@ -31,7 +31,7 @@ export interface IBoardProps {
   boardId: string;
 }
 
-const Removeboard = ({ boardId }: IBoardProps) => {
+const ResetnRemoveboard = ({ boardId }: IBoardProps) => {
   const [toDos, setToDos] = useRecoilState(toDoState);
 
   const removeClick = () => {
@@ -62,4 +62,4 @@ const Removeboard = ({ boardId }: IBoardProps) => {
   );
 };
 
-export default Removeboard;
+export default ResetnRemoveboard;

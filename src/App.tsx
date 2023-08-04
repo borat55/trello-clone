@@ -89,6 +89,7 @@ function App() {
     setOpenBoardModal(true);
   };
   const onDragEnd = (info: DropResult) => {
+    console.log(info);
     const { destination, source } = info;
     if (!destination) return;
     if (destination?.droppableId === source.droppableId) {
@@ -150,8 +151,13 @@ function App() {
         <BoardTitle />
         <TodoModal />
         <Boards>
-          {Object.keys(toDos).map((boardId) => (
-            <Board boardId={boardId} key={boardId} toDos={toDos[boardId]} />
+          {Object.keys(toDos).map((boardId, index) => (
+            <Board
+              boardId={boardId}
+              key={boardId}
+              toDos={toDos[boardId]}
+              index={index}
+            />
           ))}
         </Boards>
         <Trashcan />
