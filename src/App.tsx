@@ -88,46 +88,54 @@ function App() {
   const addBoardClick = () => {
     setOpenBoardModal(true);
   };
+
   const onDragEnd = (info: DropResult) => {
     console.log(info);
-    const { destination, source } = info;
+    const { destination, source, type } = info;
     if (!destination) return;
-    if (destination?.droppableId === source.droppableId) {
-      setToDos((allBoards) => {
-        const boardCopy = [...allBoards[source.droppableId]];
-        const taskOjg = boardCopy[source.index];
-        boardCopy.splice(source.index, 1);
-        boardCopy.splice(destination?.index, 0, taskOjg);
+    if (type === "card") {
+      if (destination?.droppableId === source.droppableId) {
+        setToDos((allBoards) => {
+          const boardCopy = [...allBoards[source.droppableId]];
+          const taskOjg = boardCopy[source.index];
+          boardCopy.splice(source.index, 1);
+          boardCopy.splice(destination?.index, 0, taskOjg);
 
-        return {
-          ...allBoards,
-          [source.droppableId]: boardCopy,
-        };
-      });
-    }
-    if (destination.droppableId !== source.droppableId) {
-      if (destination.droppableId === "trashcan") {
-        setToDos((allBoards) => {
-          const sourceBoard = [...allBoards[source.droppableId]];
-          sourceBoard.splice(source.index, 1);
-          return { ...allBoards, [source.droppableId]: sourceBoard };
-        });
-      } else {
-        setToDos((allBoards) => {
-          const sourceBoard = [...allBoards[source.droppableId]];
-          const taskOjg = sourceBoard[source.index];
-          const destinationBoard = [...allBoards[destination.droppableId]];
-          sourceBoard.splice(source.index, 1);
-          destinationBoard.splice(destination?.index, 0, taskOjg);
           return {
             ...allBoards,
-            [source.droppableId]: sourceBoard,
-            [destination.droppableId]: destinationBoard,
+            [source.droppableId]: boardCopy,
           };
         });
       }
+      if (destination.droppableId !== source.droppableId) {
+        if (destination.droppableId === "trashcan") {
+          setToDos((allBoards) => {
+            const sourceBoard = [...allBoards[source.droppableId]];
+            sourceBoard.splice(source.index, 1);
+            return { ...allBoards, [source.droppableId]: sourceBoard };
+          });
+        } else {
+          setToDos((allBoards) => {
+            const sourceBoard = [...allBoards[source.droppableId]];
+            const taskOjg = sourceBoard[source.index];
+            const destinationBoard = [...allBoards[destination.droppableId]];
+            sourceBoard.splice(source.index, 1);
+            destinationBoard.splice(destination?.index, 0, taskOjg);
+            return {
+              ...allBoards,
+              [source.droppableId]: sourceBoard,
+              [destination.droppableId]: destinationBoard,
+            };
+          });
+        }
+      }
+    }
+
+    if (type === "board") {
+      console.log("working");
     }
   };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Wrapper>

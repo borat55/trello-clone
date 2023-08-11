@@ -1,4 +1,4 @@
-import { boardTitle, openModal, toDoState } from "../atoms";
+import { boardListArr, boardTitle, openModal, toDoState } from "../atoms";
 import { useRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 import { StyleBoardModal } from "./StyleBoardModal";
@@ -11,6 +11,9 @@ const AddBoard = () => {
   const [openBoardModal, setOpenBoardModal] =
     useRecoilState<boolean>(openModal);
   const [toDos, setTodos] = useRecoilState(toDoState);
+  const [boardList, setBoardList] = useRecoilState(boardListArr);
+  console.log(toDos);
+  console.log(boardList);
 
   const {
     register,
@@ -35,6 +38,12 @@ const AddBoard = () => {
       const result = { [title]: [], ...prev };
       return result;
     });
+    setBoardList((oldList) => {
+      const copyOldList = [...oldList];
+      copyOldList.push(title);
+      return copyOldList;
+    });
+
     setValue("boardName", "");
     handleCloseBoardModal();
   };

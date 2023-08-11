@@ -14,6 +14,11 @@ export const toDoState = atom<IToDoState>({
   default: {},
 });
 
+export const boardListArr = atom({
+  key: "boardList",
+  default: [] as string[],
+});
+
 export const mouseOver = atom({
   key: "mouseOver",
   default: false,
