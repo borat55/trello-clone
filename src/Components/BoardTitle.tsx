@@ -2,6 +2,7 @@ import { StyleBoardModal } from "./StyleBoardModal";
 import { boardTitle, boardTitleModal, toDoState } from "../atoms";
 import { useRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
+import { useCallback } from "react";
 
 interface IBoardName {
   changeTitle: string;
@@ -13,15 +14,15 @@ const BoardTitle = () => {
   const { register, handleSubmit, getValues, setValue } = useForm<IBoardName>();
   const [toDos, setToDos] = useRecoilState(toDoState);
 
-  const handleCloseBoardTitleModal = () => {
+  const handleCloseBoardTitleModal = useCallback(() => {
     setBoardTitleModal(false);
-  };
+  }, [setBoardTitleModal]);
 
-  const handleCloseBtn = () => {
+  const handleCloseBtn = useCallback(() => {
     setBoardTitleModal(false);
-  };
+  }, [setBoardTitleModal]);
 
-  const onSubmit = () => {
+  const onSubmit = useCallback(() => {
     const title = getValues("changeTitle");
     setToDos((todos) => {
       const copiedBoard = { ...todos };
@@ -32,7 +33,8 @@ const BoardTitle = () => {
     });
     setValue("changeTitle", "");
     handleCloseBoardTitleModal();
-  };
+  }, [getValues, setToDos, setValue]);
+
   return (
     <StyleBoardModal
       isOpen={boardtitleModal}

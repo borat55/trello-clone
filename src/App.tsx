@@ -2,11 +2,12 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { toDoState, mouseOver, openModal, IToDoState } from "./atoms";
-import Board from "./Components/Board";
+import Board from "./Components/BoardList";
 import AddBoard from "./Components/AddBoard";
 import BoardTitle from "./Components/BoardTitle";
 import TodoModal from "./Components/ToDoModal";
 import Trashcan from "./Components/TrashCan";
+import React, { useCallback } from "react";
 
 const Wrapper = styled.div`
   display: flex;
@@ -77,64 +78,67 @@ function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
   const [mouseover, setMouseover] = useRecoilState(mouseOver);
   const [openBoardModal, setOpenBoardModal] = useRecoilState(openModal);
-  const onMouseEnter = () => {
+  const onMouseEnter = useCallback(() => {
     setMouseover(false);
-  };
+  }, [setMouseover]);
 
-  const onMouseLeave = () => {
+  const onMouseLeave = useCallback(() => {
     setMouseover(true);
-  };
+  }, [setMouseover]);
 
-  const addBoardClick = () => {
+  const addBoardClick = useCallback(() => {
     setOpenBoardModal(true);
-  };
+  }, [setOpenBoardModal]);
 
-  const onDragEnd = (info: DropResult) => {
-    console.log(info);
-    const { destination, source, type } = info;
-    if (!destination) return;
-    if (type === "card") {
-      if (destination?.droppableId === source.droppableId) {
-        setToDos((allBoards) => {
-          const boardCopy = [...allBoards[source.droppableId]];
-          const taskOjg = boardCopy[source.index];
-          boardCopy.splice(source.index, 1);
-          boardCopy.splice(destination?.index, 0, taskOjg);
+  const onDragEnd = useCallback(
+    (info: DropResult) => {
+      console.log(info);
+      const { destination, source, type } = info;
+      if (!destination) return;
+      if (type === "card") {
+        if (destination?.droppableId === source.droppableId) {
+          setToDos((allBoards) => {
+            const boardCopy = [...allBoards[source.droppableId]];
+            const taskOjg = boardCopy[source.index];
+            boardCopy.splice(source.index, 1);
+            boardCopy.splice(destination?.index, 0, taskOjg);
 
-          return {
-            ...allBoards,
-            [source.droppableId]: boardCopy,
-          };
-        });
-      }
-      if (destination.droppableId !== source.droppableId) {
-        if (destination.droppableId === "trashcan") {
-          setToDos((allBoards) => {
-            const sourceBoard = [...allBoards[source.droppableId]];
-            sourceBoard.splice(source.index, 1);
-            return { ...allBoards, [source.droppableId]: sourceBoard };
-          });
-        } else {
-          setToDos((allBoards) => {
-            const sourceBoard = [...allBoards[source.droppableId]];
-            const taskOjg = sourceBoard[source.index];
-            const destinationBoard = [...allBoards[destination.droppableId]];
-            sourceBoard.splice(source.index, 1);
-            destinationBoard.splice(destination?.index, 0, taskOjg);
             return {
               ...allBoards,
-              [source.droppableId]: sourceBoard,
-              [destination.droppableId]: destinationBoard,
+              [source.droppableId]: boardCopy,
             };
           });
         }
+        if (destination.droppableId !== source.droppableId) {
+          if (destination.droppableId === "trashcan") {
+            setToDos((allBoards) => {
+              const sourceBoard = [...allBoards[source.droppableId]];
+              sourceBoard.splice(source.index, 1);
+              return { ...allBoards, [source.droppableId]: sourceBoard };
+            });
+          } else {
+            setToDos((allBoards) => {
+              const sourceBoard = [...allBoards[source.droppableId]];
+              const taskOjg = sourceBoard[source.index];
+              const destinationBoard = [...allBoards[destination.droppableId]];
+              sourceBoard.splice(source.index, 1);
+              destinationBoard.splice(destination?.index, 0, taskOjg);
+              return {
+                ...allBoards,
+                [source.droppableId]: sourceBoard,
+                [destination.droppableId]: destinationBoard,
+              };
+            });
+          }
+        }
       }
-    }
 
-    if (type === "board") {
-      console.log("working");
-    }
-  };
+      if (type === "board") {
+        console.log("working");
+      }
+    },
+    [setToDos, setOpenBoardModal, setMouseover]
+  );
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -174,4 +178,4 @@ function App() {
   );
 }
 
-export default App;
+export default React.memo(App);

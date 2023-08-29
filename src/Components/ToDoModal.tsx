@@ -2,6 +2,7 @@ import { StyleBoardModal } from "./StyleBoardModal";
 import { toDoModal, editToDoModal, toDoState } from "../atoms";
 import { useRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
+import React, { useCallback } from "react";
 
 const TodoModal = () => {
   const { register, handleSubmit, watch, getValues, setValue } = useForm();
@@ -9,11 +10,11 @@ const TodoModal = () => {
   const [editTodoModal, setEditToDoModal] = useRecoilState(editToDoModal);
   const [toDos, setToDos] = useRecoilState(toDoState);
 
-  const closeEditTodoModal = () => {
+  const closeEditTodoModal = useCallback(() => {
     setToDoModal(false);
-  };
+  }, [setToDoModal]);
 
-  const handleEditToDo = () => {
+  const handleEditToDo = useCallback(() => {
     const text = getValues("editToDo");
     setToDos((todos) => {
       const cardKey = Object.keys(editTodoModal)[0];
@@ -29,7 +30,7 @@ const TodoModal = () => {
     });
     setValue("editToDo", "");
     closeEditTodoModal();
-  };
+  }, [getValues, setToDos, toDos]);
   return (
     <StyleBoardModal isOpen={todoModal} onRequestClose={closeEditTodoModal}>
       <button onClick={closeEditTodoModal}>X</button>
@@ -41,4 +42,4 @@ const TodoModal = () => {
   );
 };
 
-export default TodoModal;
+export default React.memo(TodoModal);

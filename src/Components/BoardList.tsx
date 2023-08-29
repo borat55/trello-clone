@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import DraggableCard from "./DragabbleCard";
+import DraggableCard from "./DraggableCard";
+import DroppableBoard from "./DroppableBoard";
 import styled from "styled-components";
 import {
   ITodo,
@@ -11,9 +12,7 @@ import {
 } from "../atoms";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import ResetnRemoveboard from "./Deleteboard";
-import BoardTitle from "./BoardTitle";
-import React from "react";
-import { memo } from "react";
+import React, { useCallback, memo } from "react";
 
 const DropArea = styled.div``;
 
@@ -32,19 +31,6 @@ const Title = styled.div`
   font-weight: 600;
 
   font-size: 18px;
-`;
-
-const Area = styled.div<IAreaProps>`
-  background-color: ${(props) =>
-    props.isDraggingOver
-      ? "#dfe6e9"
-      : props.isDraggingFromThis
-      ? "#b2bec3"
-      : "transparant"};
-  flex-grow: 1;
-  border-radius: 5px;
-  transition: background-color 0.3s ease-in-out;
-  padding: 10px;
 `;
 
 const Form = styled.form`
@@ -77,27 +63,31 @@ function Board({ toDos, boardId, index }: IBoardProps) {
   const [boardtitleModal, setBoardTitleModal] = useRecoilState(boardTitleModal);
   const setBoardTitle = useSetRecoilState(boardTitle);
   const [boardListarr, setBoardListArr] = useRecoilState(boardListArr);
+  console.log("how many times we aer loading?");
 
   const { register, setValue, handleSubmit } = useForm<IForm>();
 
-  const onValid = ({ toDo }: IForm) => {
-    const newToDo = {
-      id: Date.now(),
-      text: toDo,
-    };
-    setToDos((allBoards) => {
-      return {
-        ...allBoards,
-        [boardId]: [newToDo, ...allBoards[boardId]],
+  const onValid = useCallback(
+    ({ toDo }: IForm) => {
+      const newToDo = {
+        id: Date.now(),
+        text: toDo,
       };
-    });
-    setValue("toDo", "");
-  };
+      setToDos((allBoards) => {
+        return {
+          ...allBoards,
+          [boardId]: [newToDo, ...allBoards[boardId]],
+        };
+      });
+      setValue("toDo", "");
+    },
+    [setToDos, setValue]
+  );
 
-  const handleTitleClick = () => {
+  const handleTitleClick = useCallback(() => {
     setBoardTitleModal(true);
     setBoardTitle(boardId);
-  };
+  }, [setBoardTitleModal, setBoardTitle]);
 
   return (
     <Droppable droppableId="boards" type="board">
@@ -126,29 +116,11 @@ function Board({ toDos, boardId, index }: IBoardProps) {
                       placeholder={`Add task on ${boardId} board`}
                     />
                   </Form>
-                  <Droppable droppableId={boardId} type="card">
-                    {(provided, snapshot) => (
-                      <Area
-                        isDraggingOver={snapshot.isDraggingOver}
-                        isDraggingFromThis={Boolean(
-                          snapshot.draggingFromThisWith
-                        )}
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                      >
-                        {toDos.map((toDo, index) => (
-                          <DraggableCard
-                            toDoId={toDo.id}
-                            toDoText={toDo.text}
-                            key={toDo.id}
-                            index={index}
-                            boardId={boardId}
-                          />
-                        ))}
-                        {provided.placeholder}
-                      </Area>
-                    )}
-                  </Droppable>
+                  <DroppableBoard
+                    boardId={boardId}
+                    toDos={toDos}
+                    index={index}
+                  />
                 </Wrapper>
               )}
             </Draggable>
@@ -160,4 +132,4 @@ function Board({ toDos, boardId, index }: IBoardProps) {
   );
 }
 
-export default Board;
+export default React.memo(Board);

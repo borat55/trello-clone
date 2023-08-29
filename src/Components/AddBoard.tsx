@@ -2,6 +2,7 @@ import { boardListArr, boardTitle, openModal, toDoState } from "../atoms";
 import { useRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 import { StyleBoardModal } from "./StyleBoardModal";
+import React, { useCallback } from "react";
 
 interface IBoardName {
   boardName: string;
@@ -12,8 +13,6 @@ const AddBoard = () => {
     useRecoilState<boolean>(openModal);
   const [toDos, setTodos] = useRecoilState(toDoState);
   const [boardList, setBoardList] = useRecoilState(boardListArr);
-  console.log(toDos);
-  console.log(boardList);
 
   const {
     register,
@@ -24,15 +23,15 @@ const AddBoard = () => {
     setValue,
   } = useForm<IBoardName>();
 
-  const handleCloseBoardModal = () => {
+  const handleCloseBoardModal = useCallback(() => {
     setOpenBoardModal(false);
-  };
+  }, [setOpenBoardModal]);
 
-  const handleCloseBtn = () => {
+  const handleCloseBtn = useCallback(() => {
     setOpenBoardModal(false);
-  };
+  }, [setOpenBoardModal]);
 
-  const onSubmit = () => {
+  const onSubmit = useCallback(() => {
     const title = getValues("boardName");
     setTodos((prev) => {
       const result = { [title]: [], ...prev };
@@ -46,7 +45,7 @@ const AddBoard = () => {
 
     setValue("boardName", "");
     handleCloseBoardModal();
-  };
+  }, [setTodos, setBoardList, getValues, setValue]);
 
   return (
     <StyleBoardModal
@@ -66,4 +65,4 @@ const AddBoard = () => {
   );
 };
 
-export default AddBoard;
+export default React.memo(AddBoard);
