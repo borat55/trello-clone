@@ -2,7 +2,7 @@ import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import React, { useCallback } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { toDoState, toDoModal, editToDoModal } from "../atoms";
+import { allBoardsState, toDoModal, editToDoModal } from "../atoms";
 
 const CardContainer = styled.div<{ isDragging: boolean }>`
   height: auto;
@@ -53,7 +53,7 @@ function DraggableCard({
   index,
   boardId,
 }: IDragabbleCardProps) {
-  const [toDos, setToDos] = useRecoilState(toDoState);
+  const [allBoards, setAllBoards] = useRecoilState(allBoardsState);
   const setToDoModal = useSetRecoilState(toDoModal);
   const [editTodoModal, setEditToDoModal] = useRecoilState(editToDoModal);
 
@@ -63,13 +63,13 @@ function DraggableCard({
   }, [setEditToDoModal, setToDoModal]);
 
   const deleteToDoBtn = useCallback(() => {
-    setToDos((prev) => {
+    setAllBoards((prev) => {
       const findBoard = prev[boardId];
       const deleteTodo = findBoard.filter((todo) => todo.id !== toDoId);
       const result = { ...prev, [boardId]: deleteTodo };
       return result;
     });
-  }, [setToDos, boardId]);
+  }, [setAllBoards, boardId]);
 
   return (
     <Draggable draggableId={toDoId + ""} index={index}>

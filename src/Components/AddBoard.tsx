@@ -1,7 +1,7 @@
-import { boardListArr, boardTitle, openModal, toDoState } from "../atoms";
+import { boardListArr, boardTitle, openModal, allBoardsState } from "../atoms";
 import { useRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
-import { StyleBoardModal } from "./StyleBoardModal";
+import { StyleBoardModal } from "../StyleBoardModal";
 import React, { useCallback } from "react";
 
 interface IBoardName {
@@ -11,7 +11,7 @@ interface IBoardName {
 const AddBoard = () => {
   const [openBoardModal, setOpenBoardModal] =
     useRecoilState<boolean>(openModal);
-  const [toDos, setTodos] = useRecoilState(toDoState);
+  const [allBoards, setAllBoards] = useRecoilState(allBoardsState);
   const [boardList, setBoardList] = useRecoilState(boardListArr);
 
   const {
@@ -33,19 +33,27 @@ const AddBoard = () => {
 
   const onSubmit = useCallback(() => {
     const title = getValues("boardName");
-    setTodos((prev) => {
-      const result = { [title]: [], ...prev };
-      return result;
+
+    setAllBoards((prev) => {
+      const copyPrev = { ...prev };
+      copyPrev[title] = [];
+      return copyPrev;
     });
+
     setBoardList((oldList) => {
-      const copyOldList = [...oldList];
-      copyOldList.push(title);
-      return copyOldList;
+      if (oldList.includes(title)) {
+        alert("This board name already exists.");
+        return oldList;
+      } else {
+        const copyOldList = [...oldList];
+        copyOldList.push(title);
+        return copyOldList;
+      }
     });
 
     setValue("boardName", "");
     handleCloseBoardModal();
-  }, [setTodos, setBoardList, getValues, setValue]);
+  }, [setAllBoards, setBoardList, getValues, setValue]);
 
   return (
     <StyleBoardModal

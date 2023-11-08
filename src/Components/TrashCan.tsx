@@ -18,6 +18,7 @@ const TrashDiv = styled.div<{
 }>``;
 
 const Trashcan = () => {
+  console.log("hey");
   return (
     <TrashContainer>
       <Droppable droppableId="trashcan">

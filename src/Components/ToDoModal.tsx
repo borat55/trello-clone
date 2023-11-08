@@ -1,5 +1,5 @@
-import { StyleBoardModal } from "./StyleBoardModal";
-import { toDoModal, editToDoModal, toDoState } from "../atoms";
+import { StyleBoardModal } from "../StyleBoardModal";
+import { toDoModal, editToDoModal, allBoardsState } from "../atoms";
 import { useRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 import React, { useCallback } from "react";
@@ -8,7 +8,7 @@ const TodoModal = () => {
   const { register, handleSubmit, watch, getValues, setValue } = useForm();
   const [todoModal, setToDoModal] = useRecoilState(toDoModal);
   const [editTodoModal, setEditToDoModal] = useRecoilState(editToDoModal);
-  const [toDos, setToDos] = useRecoilState(toDoState);
+  const [allBoards, setAllBoards] = useRecoilState(allBoardsState);
 
   const closeEditTodoModal = useCallback(() => {
     setToDoModal(false);
@@ -16,10 +16,10 @@ const TodoModal = () => {
 
   const handleEditToDo = useCallback(() => {
     const text = getValues("editToDo");
-    setToDos((todos) => {
+    setAllBoards((allBoards) => {
       const cardKey = Object.keys(editTodoModal)[0];
       const cardValue = Object.values(editTodoModal)[0];
-      const { [cardKey]: todosToEdit, ...restToDos } = todos;
+      const { [cardKey]: todosToEdit, ...restToDos } = allBoards;
       const editedTodo = { id: Number(cardValue), text };
       const updatedTodos = [
         editedTodo,
@@ -30,7 +30,7 @@ const TodoModal = () => {
     });
     setValue("editToDo", "");
     closeEditTodoModal();
-  }, [getValues, setToDos, toDos]);
+  }, [getValues, setAllBoards, allBoards]);
   return (
     <StyleBoardModal isOpen={todoModal} onRequestClose={closeEditTodoModal}>
       <button onClick={closeEditTodoModal}>X</button>

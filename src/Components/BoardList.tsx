@@ -1,11 +1,10 @@
 import { useForm } from "react-hook-form";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import DraggableCard from "./DraggableCard";
-import DroppableBoard from "./DroppableBoard";
+
 import styled from "styled-components";
 import {
   ITodo,
-  toDoState,
+  allBoardsState,
   boardTitleModal,
   boardTitle,
   boardListArr,
@@ -59,11 +58,10 @@ interface IForm {
 }
 
 function Board({ toDos, boardId, index }: IBoardProps) {
-  const setToDos = useSetRecoilState(toDoState);
+  const [allBoards, setAllBoards] = useRecoilState(allBoardsState);
   const [boardtitleModal, setBoardTitleModal] = useRecoilState(boardTitleModal);
   const setBoardTitle = useSetRecoilState(boardTitle);
   const [boardListarr, setBoardListArr] = useRecoilState(boardListArr);
-  console.log("how many times we aer loading?");
 
   const { register, setValue, handleSubmit } = useForm<IForm>();
 
@@ -73,7 +71,7 @@ function Board({ toDos, boardId, index }: IBoardProps) {
         id: Date.now(),
         text: toDo,
       };
-      setToDos((allBoards) => {
+      setAllBoards((allBoards) => {
         return {
           ...allBoards,
           [boardId]: [newToDo, ...allBoards[boardId]],
@@ -81,7 +79,7 @@ function Board({ toDos, boardId, index }: IBoardProps) {
       });
       setValue("toDo", "");
     },
-    [setToDos, setValue]
+    [setAllBoards, setValue]
   );
 
   const handleTitleClick = useCallback(() => {
@@ -93,7 +91,7 @@ function Board({ toDos, boardId, index }: IBoardProps) {
     <Droppable droppableId="boards" type="board">
       {(provided) => (
         <DropArea ref={provided.innerRef} {...provided.droppableProps}>
-          {boardListarr.map((boardId, index) => (
+          {Object.keys(allBoards).map((boardId, index) => (
             <Draggable key={boardId} draggableId={boardId} index={index}>
               {(provided) => (
                 <Wrapper ref={provided.innerRef} {...provided.draggableProps}>
@@ -107,7 +105,6 @@ function Board({ toDos, boardId, index }: IBoardProps) {
                   >
                     <div style={{ width: "40px", height: "14px" }}></div>
                     <Title onClick={handleTitleClick}>{boardId}</Title>
-                    <ResetnRemoveboard boardId={boardId} />
                   </div>
                   <Form onSubmit={handleSubmit(onValid)}>
                     <input
@@ -116,11 +113,6 @@ function Board({ toDos, boardId, index }: IBoardProps) {
                       placeholder={`Add task on ${boardId} board`}
                     />
                   </Form>
-                  <DroppableBoard
-                    boardId={boardId}
-                    toDos={toDos}
-                    index={index}
-                  />
                 </Wrapper>
               )}
             </Draggable>

@@ -1,5 +1,10 @@
 import { atom } from "recoil";
 
+export interface IBoardProps {
+  boardId: string;
+  index: number;
+}
+
 export interface ITodo {
   id: number;
   text: string;
@@ -9,7 +14,7 @@ export interface IToDoState {
   [key: string]: ITodo[];
 }
 
-export const toDoState = atom<IToDoState>({
+export const allBoardsState = atom<IToDoState>({
   key: "toDo",
   default: {},
 });

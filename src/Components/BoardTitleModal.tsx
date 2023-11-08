@@ -1,5 +1,5 @@
-import { StyleBoardModal } from "./StyleBoardModal";
-import { boardTitle, boardTitleModal, toDoState } from "../atoms";
+import { StyleBoardModal } from "../StyleBoardModal";
+import { boardTitle, boardTitleModal, allBoardsState } from "../atoms";
 import { useRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 import { useCallback } from "react";
@@ -8,11 +8,11 @@ interface IBoardName {
   changeTitle: string;
 }
 
-const BoardTitle = () => {
+const BoardTitleModal = () => {
   const [boardtitleModal, setBoardTitleModal] = useRecoilState(boardTitleModal);
   const [boardtitle, setboardTitle] = useRecoilState(boardTitle);
   const { register, handleSubmit, getValues, setValue } = useForm<IBoardName>();
-  const [toDos, setToDos] = useRecoilState(toDoState);
+  const [allBoards, setAllBoards] = useRecoilState(allBoardsState);
 
   const handleCloseBoardTitleModal = useCallback(() => {
     setBoardTitleModal(false);
@@ -24,8 +24,8 @@ const BoardTitle = () => {
 
   const onSubmit = useCallback(() => {
     const title = getValues("changeTitle");
-    setToDos((todos) => {
-      const copiedBoard = { ...todos };
+    setAllBoards((allBoards) => {
+      const copiedBoard = { ...allBoards };
       const existToDos = copiedBoard[boardtitle];
       delete copiedBoard[boardtitle];
       const result = { ...copiedBoard, [title]: existToDos };
@@ -33,7 +33,7 @@ const BoardTitle = () => {
     });
     setValue("changeTitle", "");
     handleCloseBoardTitleModal();
-  }, [getValues, setToDos, setValue]);
+  }, [getValues, setAllBoards, setValue]);
 
   return (
     <StyleBoardModal
@@ -53,4 +53,4 @@ const BoardTitle = () => {
   );
 };
 
-export default BoardTitle;
+export default BoardTitleModal;

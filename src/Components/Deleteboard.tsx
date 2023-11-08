@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { toDoState } from "../atoms";
+import { allBoardsState } from "../atoms";
 import { useRecoilState } from "recoil";
-import { ITodo } from "../atoms";
+import { ITodo, IBoardProps } from "../atoms";
 import React, { useCallback } from "react";
 
 const Remove = styled.button`
@@ -28,24 +28,20 @@ const ResetBoard = styled.button`
   cursor: pointer;
 `;
 
-export interface IBoardProps {
-  boardId: string;
-}
-
 const ResetnRemoveboard = ({ boardId }: IBoardProps) => {
-  const [toDos, setToDos] = useRecoilState(toDoState);
+  const [allBoards, setAllBoards] = useRecoilState(allBoardsState);
 
   const removeClick = useCallback(() => {
-    setToDos((prev) => {
+    setAllBoards((prev) => {
       const copiedTodos = { ...prev };
       delete copiedTodos[boardId];
       return copiedTodos;
     });
-  }, [setToDos]);
+  }, [setAllBoards]);
 
   const resetClick = useCallback(() => {
-    setToDos((todos) => {
-      const copied = { ...todos };
+    setAllBoards((allBoards) => {
+      const copied = { ...allBoards };
       const {
         [boardId]: [],
         ...rest
@@ -53,7 +49,7 @@ const ResetnRemoveboard = ({ boardId }: IBoardProps) => {
       copied[boardId] = [];
       return copied;
     });
-  }, [setToDos, boardId]);
+  }, [setAllBoards, boardId]);
 
   return (
     <div style={{ display: "flex", justifyContent: "end" }}>
