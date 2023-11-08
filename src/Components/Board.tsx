@@ -21,9 +21,14 @@ const Board = () => {
 
   const onDragEnd = useCallback(
     (info: DropResult) => {
-      console.log(info);
+      console.log("info", info);
       const { destination, source, type } = info;
-      if (!destination) return;
+      if (
+        !destination ||
+        (source.droppableId === destination.droppableId &&
+          source.index === destination.index)
+      )
+        return;
       if (type === "card") {
         if (destination?.droppableId === source.droppableId) {
           setAllBoards((allBoards) => {
@@ -63,7 +68,12 @@ const Board = () => {
       }
 
       if (type === "board") {
-        console.log("working");
+        setBoardList((list) => {
+          const listCopy = [...list];
+          const targetBoard = listCopy.splice(source.index, 1)[0];
+          listCopy.splice(destination.index, 0, targetBoard);
+          return listCopy;
+        });
       }
     },
     [setAllBoards]
