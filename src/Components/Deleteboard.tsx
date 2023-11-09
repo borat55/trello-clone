@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { allBoardsState } from "../atoms";
+import { allBoardsState, boardListArr } from "../atoms";
 import { useRecoilState } from "recoil";
 import { ITodo, IBoardProps } from "../atoms";
 import React, { useCallback } from "react";
@@ -30,11 +30,13 @@ const ResetBoard = styled.button`
 
 const ResetnRemoveboard = ({ boardId }: IBoardProps) => {
   const [allBoards, setAllBoards] = useRecoilState(allBoardsState);
+  const [boardList, setBoardList] = useRecoilState(boardListArr);
 
   const removeClick = useCallback(() => {
-    setAllBoards((prev) => {
-      const copiedTodos = { ...prev };
-      delete copiedTodos[boardId];
+    setBoardList((prev) => {
+      const copiedTodos = [...prev];
+      const removeItem = copiedTodos.indexOf(boardId + "");
+      copiedTodos.splice(removeItem, 1);
       return copiedTodos;
     });
   }, [setAllBoards]);

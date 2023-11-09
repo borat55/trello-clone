@@ -69,6 +69,8 @@ const Area = styled.div<IAreaProps>`
   padding: 10px; */
 `;
 
+const Body = styled.div``;
+
 const DraggableBoards = ({ boardId, index }: IBoardProps) => {
   const [allBoards, setAllBoards] = useRecoilState(allBoardsState);
   const [boardtitleModal, setBoardTitleModal] = useRecoilState(boardTitleModal);
@@ -127,7 +129,7 @@ const DraggableBoards = ({ boardId, index }: IBoardProps) => {
             </Form>
           </header>
 
-          <body>
+          <Body>
             <Droppable droppableId={boardId} type="card">
               {(provided, snapshot) => (
                 <Area
@@ -149,7 +151,7 @@ const DraggableBoards = ({ boardId, index }: IBoardProps) => {
                 </Area>
               )}
             </Droppable>
-          </body>
+          </Body>
         </Container>
       )}
     </Draggable>

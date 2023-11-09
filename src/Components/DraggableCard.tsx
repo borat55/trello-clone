@@ -3,6 +3,7 @@ import styled from "styled-components";
 import React, { useCallback } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { allBoardsState, toDoModal, editToDoModal } from "../atoms";
+import ToDoModal from "./ToDoModal";
 
 const CardContainer = styled.div<{ isDragging: boolean }>`
   height: auto;
@@ -83,6 +84,7 @@ function DraggableCard({
           <Card>{toDoText}</Card>
           <div style={{ display: "flex" }}>
             <EditToDoBtn onClick={editToDoBtn}>✂</EditToDoBtn>
+            <ToDoModal />
             <DeleteToDoBtn onClick={deleteToDoBtn}>❌</DeleteToDoBtn>
           </div>
         </CardContainer>
