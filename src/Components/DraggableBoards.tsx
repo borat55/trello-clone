@@ -57,7 +57,7 @@ const Form = styled.form`
 `;
 
 const Area = styled.div<IAreaProps>`
-  /* background-color: ${(props) =>
+  background-color: ${(props) =>
     props.isDraggingOver
       ? "#dfe6e9"
       : props.isDraggingFromThis
@@ -66,7 +66,7 @@ const Area = styled.div<IAreaProps>`
   flex-grow: 1;
   border-radius: 5px;
   transition: background-color 0.3s ease-in-out;
-  padding: 10px; */
+  padding: 10px;
 `;
 
 const Body = styled.div``;

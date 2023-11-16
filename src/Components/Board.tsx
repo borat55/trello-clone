@@ -19,55 +19,67 @@ const Board = () => {
   const [AllBoards, setAllBoards] = useRecoilState(allBoardsState);
   const [boardList, setBoardList] = useRecoilState(boardListArr);
 
-  const onDragEnd = useCallback(
-    (info: DropResult) => {
-      console.log("info", info);
-      const { destination, source, type } = info;
-      if (
-        !destination ||
-        (source.droppableId === destination.droppableId &&
-          source.index === destination.index)
-      )
-        return;
-      if (type === "card") {
-        if (destination?.droppableId === source.droppableId) {
-          setAllBoards((allBoards) => {
-            const boardCopy = [...allBoards[source.droppableId]];
-            const taskOjg = boardCopy[source.index];
-            boardCopy.splice(source.index, 1);
-            boardCopy.splice(destination?.index, 0, taskOjg);
+  const onDragEnd = (info: DropResult) => {
+    console.log("info", info);
+    const { destination, source, type } = info;
+    if (!destination) {
+      console.log("there is no destination");
+      return;
+    }
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    ) {
+      console.log("you are dragging to the same place.");
+      return;
+    }
 
+    if (type === "card") {
+      if (destination?.droppableId === source.droppableId) {
+        setAllBoards((allBoards) => {
+          const boardCopy = [...allBoards[source.droppableId]];
+          const taskOjg = boardCopy[source.index];
+          boardCopy.splice(source.index, 1);
+          boardCopy.splice(destination?.index, 0, taskOjg);
+
+          return {
+            ...allBoards,
+            [source.droppableId]: boardCopy,
+          };
+        });
+      }
+      if (destination.droppableId !== source.droppableId) {
+        if (destination.droppableId === "trashcan") {
+          setAllBoards((allBoards) => {
+            const sourceBoard = [...allBoards[source.droppableId]];
+            sourceBoard.splice(source.index, 1);
+            return { ...allBoards, [source.droppableId]: sourceBoard };
+          });
+        } else {
+          setAllBoards((allBoards) => {
+            const sourceBoard = [...allBoards[source.droppableId]];
+            const taskOjg = sourceBoard[source.index];
+            const destinationBoard = [...allBoards[destination.droppableId]];
+            sourceBoard.splice(source.index, 1);
+            destinationBoard.splice(destination?.index, 0, taskOjg);
             return {
               ...allBoards,
-              [source.droppableId]: boardCopy,
+              [source.droppableId]: sourceBoard,
+              [destination.droppableId]: destinationBoard,
             };
           });
         }
-        if (destination.droppableId !== source.droppableId) {
-          if (destination.droppableId === "trashcan") {
-            setAllBoards((allBoards) => {
-              const sourceBoard = [...allBoards[source.droppableId]];
-              sourceBoard.splice(source.index, 1);
-              return { ...allBoards, [source.droppableId]: sourceBoard };
-            });
-          } else {
-            setAllBoards((allBoards) => {
-              const sourceBoard = [...allBoards[source.droppableId]];
-              const taskOjg = sourceBoard[source.index];
-              const destinationBoard = [...allBoards[destination.droppableId]];
-              sourceBoard.splice(source.index, 1);
-              destinationBoard.splice(destination?.index, 0, taskOjg);
-              return {
-                ...allBoards,
-                [source.droppableId]: sourceBoard,
-                [destination.droppableId]: destinationBoard,
-              };
-            });
-          }
-        }
       }
+    }
 
-      if (type === "board") {
+    if (type === "board") {
+      if (destination.droppableId === "trashcan") {
+        setBoardList((list) => {
+          const listCopy = [...list];
+          listCopy.splice(source.index, 1);
+          return listCopy;
+        });
+      } else {
         setBoardList((list) => {
           const listCopy = [...list];
           const targetBoard = listCopy.splice(source.index, 1)[0];
@@ -75,13 +87,12 @@ const Board = () => {
           return listCopy;
         });
       }
-    },
-    [setAllBoards]
-  );
-
+    }
+  };
   return (
     <Wrap>
       <DragDropContext onDragEnd={onDragEnd}>
+        <Trashcan />
         <Droppable droppableId="boards" type="board">
           {(provided) => (
             <DropArea ref={provided.innerRef} {...provided.droppableProps}>
@@ -92,7 +103,6 @@ const Board = () => {
             </DropArea>
           )}
         </Droppable>
-        <Trashcan />
       </DragDropContext>
     </Wrap>
   );

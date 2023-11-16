@@ -11,13 +11,25 @@ const TrashContainer = styled.div`
   position: fixed;
   bottom: 100px;
   right: 130px;
+  width: 200px;
+  height: 200px;
 `;
 
 const TrashDiv = styled.div<{
   isDraggingOver: boolean;
-}>``;
+}>`
+  width: 200px;
+  height: 200px;
+  position: fixed;
+  bottom: 100px;
+  right: 130px;
+  width: 200px;
+  height: 200px;
+  z-index: 0;
+`;
 
 const Trashcan = () => {
+  console.log("trashcan is called");
   return (
     <TrashContainer>
       <Droppable droppableId="trashcan">
