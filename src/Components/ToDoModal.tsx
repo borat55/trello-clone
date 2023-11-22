@@ -14,7 +14,7 @@ const TodoModal = () => {
     setToDoModal(false);
   }, [setToDoModal]);
 
-  const handleEditToDo = useCallback(() => {
+  const handleEditToDo = () => {
     const text = getValues("editToDo");
     setAllBoards((allBoards) => {
       const cardKey = Object.keys(editTodoModal)[0];
@@ -30,9 +30,13 @@ const TodoModal = () => {
     });
     setValue("editToDo", "");
     closeEditTodoModal();
-  }, [getValues, setAllBoards, allBoards]);
+  };
   return (
-    <StyleBoardModal isOpen={todoModal} onRequestClose={closeEditTodoModal}>
+    <StyleBoardModal
+      isOpen={todoModal}
+      onRequestClose={closeEditTodoModal}
+      ariaHideApp={false}
+    >
       <button onClick={closeEditTodoModal}>X</button>
       <form onSubmit={handleSubmit(handleEditToDo)}>
         <h3>Edit To-Do</h3>

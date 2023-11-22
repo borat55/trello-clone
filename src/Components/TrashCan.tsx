@@ -9,8 +9,8 @@ import {
 
 const TrashContainer = styled.div`
   position: fixed;
-  bottom: 100px;
-  right: 130px;
+  bottom: -20px;
+  right: -20px;
   width: 200px;
   height: 200px;
 `;
@@ -18,11 +18,6 @@ const TrashContainer = styled.div`
 const TrashDiv = styled.div<{
   isDraggingOver: boolean;
 }>`
-  width: 200px;
-  height: 200px;
-  position: fixed;
-  bottom: 100px;
-  right: 130px;
   width: 200px;
   height: 200px;
   z-index: 0;

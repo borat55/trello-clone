@@ -18,9 +18,9 @@ const BoardTitleModal = () => {
     setBoardTitleModal(false);
   }, [setBoardTitleModal]);
 
-  const handleCloseBtn = useCallback(() => {
+  const handleCloseBtn = () => {
     setBoardTitleModal(false);
-  }, [setBoardTitleModal]);
+  };
 
   const onSubmit = useCallback(() => {
     const title = getValues("changeTitle");

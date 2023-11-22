@@ -6,14 +6,23 @@ import { useCallback } from "react";
 import DraggableBoards from "./DraggableBoards";
 import Trashcan from "./TrashCan";
 
-const Wrap = styled.div`
+const Container = styled.div``;
+
+const Wrapper = styled.div`
+  display: flex;
+  max-width: 680px;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
+const DropArea = styled.div`
   display: grid;
   width: 100%;
   gap: 10px;
   grid-template-columns: repeat(3, 1fr);
 `;
-
-const DropArea = styled.div``;
 
 const Board = () => {
   const [AllBoards, setAllBoards] = useRecoilState(allBoardsState);
@@ -90,21 +99,23 @@ const Board = () => {
     }
   };
   return (
-    <Wrap>
+    <Container>
       <DragDropContext onDragEnd={onDragEnd}>
-        <Trashcan />
-        <Droppable droppableId="boards" type="board">
-          {(provided) => (
-            <DropArea ref={provided.innerRef} {...provided.droppableProps}>
-              {boardList.map((boardId, index) => (
-                <DraggableBoards boardId={boardId} index={index} />
-              ))}
-              {provided.placeholder}
-            </DropArea>
-          )}
-        </Droppable>
+        <Wrapper>
+          <Trashcan />
+          <Droppable droppableId="boards" type="board">
+            {(provided) => (
+              <DropArea ref={provided.innerRef} {...provided.droppableProps}>
+                {boardList.map((boardId, index) => (
+                  <DraggableBoards boardId={boardId} index={index} />
+                ))}
+                {provided.placeholder}
+              </DropArea>
+            )}
+          </Droppable>
+        </Wrapper>
       </DragDropContext>
-    </Wrap>
+    </Container>
   );
 };
 

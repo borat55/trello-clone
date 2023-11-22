@@ -115,9 +115,8 @@ const DraggableBoards = ({ boardId, index }: IBoardProps) => {
               <div style={{ width: "40px", height: "14px" }}></div>
               <Title onClick={handleTitleClick}>{boardId}</Title>
               <BoardTitleModal />
+              <Deleteboard boardId={boardId} index={index} />
             </div>
-
-            <Deleteboard boardId={boardId} index={index} />
 
             <Form onSubmit={handleSubmit(onValid)}>
               <input

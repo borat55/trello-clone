@@ -56,6 +56,7 @@ const ResetnRemoveboard = ({ boardId }: IBoardProps) => {
   return (
     <div style={{ display: "flex", justifyContent: "end" }}>
       <ResetBoard onClick={resetClick}>🔄</ResetBoard>
+
       <Remove onClick={removeClick}>❌</Remove>
     </div>
   );
