@@ -10,11 +10,11 @@ const Container = styled.div``;
 
 const Wrapper = styled.div`
   display: flex;
-  max-width: 680px;
-  margin: 0 auto;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  max-width: 680px;
+  margin: 0 auto;
+  min-height: 100vh;
 `;
 
 const DropArea = styled.div`

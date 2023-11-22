@@ -4,7 +4,9 @@ import Header from "./Components/Header";
 import AddBoard from "./Components/AddBoard";
 import Board from "./Components/Board";
 
-const Container = styled.div``;
+const Container = styled.div`
+  overflow-x: auto;
+`;
 
 function App() {
   return (
