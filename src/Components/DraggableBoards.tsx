@@ -9,7 +9,6 @@ import {
 } from "../atoms";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { useCallback } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import DraggableCard from "./DraggableCard";
 import Deleteboard from "./Deleteboard";

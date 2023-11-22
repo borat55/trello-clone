@@ -1,7 +1,6 @@
 import { useRecoilState } from "recoil";
 import { allBoardsState, mouseOver, openModal, IToDoState } from "../atoms";
 import styled from "styled-components";
-import React, { useCallback } from "react";
 
 const AddBtnBox = styled.div<{ openBoardModal: boolean; todos: IToDoState }>`
   display: flex;
@@ -54,17 +53,17 @@ const Header = () => {
   const [allBoards, setAllBoards] = useRecoilState(allBoardsState);
   const [mouseover, setMouseover] = useRecoilState(mouseOver);
   const [openBoardModal, setOpenBoardModal] = useRecoilState(openModal);
-  const onMouseEnter = useCallback(() => {
+  const onMouseEnter = () => {
     setMouseover(false);
-  }, [setMouseover]);
+  };
 
-  const onMouseLeave = useCallback(() => {
+  const onMouseLeave = () => {
     setMouseover(true);
-  }, [setMouseover]);
+  };
 
-  const addBoardClick = useCallback(() => {
+  const addBoardClick = () => {
     setOpenBoardModal(true);
-  }, [setOpenBoardModal]);
+  };
 
   return (
     <AddBtnBox openBoardModal={openBoardModal} todos={allBoards}>

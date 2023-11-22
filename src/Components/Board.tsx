@@ -2,7 +2,6 @@ import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { allBoardsState, boardListArr } from "../atoms";
-import { useCallback } from "react";
 import DraggableBoards from "./DraggableBoards";
 import Trashcan from "./TrashCan";
 

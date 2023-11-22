@@ -8,7 +8,6 @@ import {
 } from "../atoms";
 import { useRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
-import { useCallback } from "react";
 
 interface IBoardName {
   changeTitle: string;
@@ -22,9 +21,9 @@ const BoardTitleModal = () => {
   const [boardList, setBoardList] = useRecoilState(boardListArr);
   const [changeTitle, setChangingTItle] = useRecoilState(changingTitle);
 
-  const handleCloseBoardTitleModal = useCallback(() => {
+  const handleCloseBoardTitleModal = () => {
     setBoardTitleModal(false);
-  }, [setBoardTitleModal]);
+  };
 
   const handleCloseBtn = () => {
     setBoardTitleModal(false);

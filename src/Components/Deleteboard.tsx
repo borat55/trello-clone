@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { allBoardsState, boardListArr } from "../atoms";
 import { useRecoilState } from "recoil";
 import { ITodo, IBoardProps } from "../atoms";
-import React, { useCallback } from "react";
+import React from "react";
 
 const Remove = styled.button`
   border: 0;
@@ -32,16 +32,16 @@ const ResetnRemoveboard = ({ boardId }: IBoardProps) => {
   const [allBoards, setAllBoards] = useRecoilState(allBoardsState);
   const [boardList, setBoardList] = useRecoilState(boardListArr);
 
-  const removeClick = useCallback(() => {
+  const removeClick = () => {
     setBoardList((prev) => {
       const copiedTodos = [...prev];
       const removeItem = copiedTodos.indexOf(boardId + "");
       copiedTodos.splice(removeItem, 1);
       return copiedTodos;
     });
-  }, [setAllBoards]);
+  };
 
-  const resetClick = useCallback(() => {
+  const resetClick = () => {
     setAllBoards((allBoards) => {
       const copied = { ...allBoards };
       const {
@@ -51,7 +51,7 @@ const ResetnRemoveboard = ({ boardId }: IBoardProps) => {
       copied[boardId] = [];
       return copied;
     });
-  }, [setAllBoards, boardId]);
+  };
 
   return (
     <div style={{ display: "flex", justifyContent: "end" }}>

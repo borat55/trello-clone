@@ -2,7 +2,7 @@ import { StyleBoardModal } from "../StyleBoardModal";
 import { toDoModal, editToDoModal, allBoardsState } from "../atoms";
 import { useRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
-import React, { useCallback } from "react";
+import React from "react";
 
 const TodoModal = () => {
   const { register, handleSubmit, watch, getValues, setValue } = useForm();
@@ -10,9 +10,9 @@ const TodoModal = () => {
   const [editTodoModal, setEditToDoModal] = useRecoilState(editToDoModal);
   const [allBoards, setAllBoards] = useRecoilState(allBoardsState);
 
-  const closeEditTodoModal = useCallback(() => {
+  const closeEditTodoModal = () => {
     setToDoModal(false);
-  }, [setToDoModal]);
+  };
 
   const handleEditToDo = () => {
     const text = getValues("editToDo");
