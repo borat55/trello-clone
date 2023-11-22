@@ -5,6 +5,7 @@ import {
   allBoardsState,
   boardTitleModal,
   boardTitle,
+  changingTitle,
 } from "../atoms";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
@@ -75,6 +76,7 @@ const DraggableBoards = ({ boardId, index }: IBoardProps) => {
   const [allBoards, setAllBoards] = useRecoilState(allBoardsState);
   const [boardtitleModal, setBoardTitleModal] = useRecoilState(boardTitleModal);
   const setBoardTitle = useSetRecoilState(boardTitle);
+  const setChangingTItle = useSetRecoilState(changingTitle);
   const { register, setValue, handleSubmit } = useForm<IForm>();
 
   const onValid = useCallback(
@@ -94,10 +96,11 @@ const DraggableBoards = ({ boardId, index }: IBoardProps) => {
     [setAllBoards, setValue]
   );
 
-  const handleTitleClick = useCallback(() => {
+  const handleTitleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    setChangingTItle(event.currentTarget.outerText);
     setBoardTitleModal(true);
     setBoardTitle(boardId);
-  }, [setBoardTitleModal, setBoardTitle]);
+  };
 
   return (
     <Draggable key={boardId} draggableId={boardId} index={index}>

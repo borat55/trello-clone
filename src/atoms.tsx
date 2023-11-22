@@ -52,3 +52,8 @@ export const editToDoModal = atom({
   key: "editToDoModal",
   default: {},
 });
+
+export const changingTitle = atom({
+  key: "chaningTitle",
+  default: "",
+});
