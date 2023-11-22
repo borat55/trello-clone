@@ -79,22 +79,19 @@ const DraggableBoards = ({ boardId, index }: IBoardProps) => {
   const setChangingTItle = useSetRecoilState(changingTitle);
   const { register, setValue, handleSubmit } = useForm<IForm>();
 
-  const onValid = useCallback(
-    ({ toDo }: IForm) => {
-      const newToDo = {
-        id: Date.now(),
-        text: toDo,
+  const onValid = ({ toDo }: IForm) => {
+    const newToDo = {
+      id: Date.now(),
+      text: toDo,
+    };
+    setAllBoards((allBoards) => {
+      return {
+        ...allBoards,
+        [boardId]: [newToDo, ...allBoards[boardId]],
       };
-      setAllBoards((allBoards) => {
-        return {
-          ...allBoards,
-          [boardId]: [newToDo, ...allBoards[boardId]],
-        };
-      });
-      setValue("toDo", "");
-    },
-    [setAllBoards, setValue]
-  );
+    });
+    setValue("toDo", "");
+  };
 
   const handleTitleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     setChangingTItle(event.currentTarget.outerText);
