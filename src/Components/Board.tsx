@@ -102,7 +102,7 @@ const Board = () => {
       <DragDropContext onDragEnd={onDragEnd}>
         <Wrapper>
           <Trashcan />
-          <Droppable droppableId="boards" type="board">
+          <Droppable droppableId="boards" type="board" direction="horizontal">
             {(provided) => (
               <DropArea ref={provided.innerRef} {...provided.droppableProps}>
                 {boardList.map((boardId, index) => (
